@@ -1,0 +1,179 @@
+\documentclass[12pt, aspectratio=169, handout]{beamer}
+
+\usetheme[sectionpage=none]{metropolis}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{frametitle}{fg=black, bg=white}
+\setbeamercolor{progress bar}{fg=black, bg=lightgray}
+\setbeamercolor*{normal text}{fg=black}
+
+\makeatletter
+\setbeamertemplate{headline}{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}{section in head/foot}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+  \end{beamercolorbox}
+}
+\makeatother
+
+% Reduce frame title box height (the one in \begin{frame}{<frame-title>}
+\setbeamertemplate{frametitle}{%
+    \nointerlineskip%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1.8ex,dp=0.6ex]{frametitle}
+        \hspace*{1ex}\insertframetitle%
+    \end{beamercolorbox}%
+}
+
+\makeatletter
+\setlength{\metropolis@titleseparator@linewidth}{3pt}
+% \setlength{\metropolis@progressonsectionpage@linewidth}{2pt}
+% \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+\makeatother
+
+% Reduce entire frame fontsize using \begin{framefont}{\tiny} \begin{frame} .....
+% https://tex.stackexchange.com/a/401409
+\usepackage{environ}
+\newcommand{\customframefont}[1]{
+\setbeamertemplate{itemize/enumerate body begin}{#1}
+\setbeamertemplate{itemize/enumerate subbody begin}{#1}
+}
+
+\NewEnviron{framefont}[1]{
+\customframefont{#1} % for itemize/enumerate
+{#1 % For the text outside itemize/enumerate
+\BODY
+}
+\customframefont{\normalsize}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
+\usepackage[T1]{fontenc}
+
+% For \cfbox which colors text and draws a colored border
+% eg \cfbox{<border-color>}{<text-color>}{text}
+\newcommand{\cfbox}[2]{%
+	\colorlet{currentcolor}{.}%
+	{\color{#1}%
+		\fbox{\color{currentcolor}#2}}%
+}
+\usepackage[12pt]{moresize}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=gray,
+    linkcolor=black
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lists
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\definecolor{lucasdarkblue}{rgb}{0.0, 0.0, 0.2}
+\definecolor{lucasdarkblue2}{rgb}{0.0, 0.0, 0.4}
+\definecolor{lucasgreen}{rgb}{0.0, 0.9, 0.3}
+\definecolor{lucaslightblue}{rgb}{0.0, 0.2, 0.8}
+\definecolor{lucasteal}{rgb}{0.18,.31,.31}
+\definecolor{blue}{RGB}{24,71,77}
+
+% Itemize symbols
+ \setbeamertemplate{itemize item}{\color{lucasteal}$\blacktriangleright$}
+ \setbeamertemplate{itemize subitem}{\color{lucasteal}$\bullet$}
+
+ % Smaller fontsize for first level
+\setbeamertemplate{itemize/enumerate body begin}{\small}
+% Even smaller fontsizes for sublevels
+\setbeamertemplate{itemize/enumerate subbody begin}{\scriptsize}
+
+
+\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{10pt}}{\enditemize}
+\newenvironment{wideenumerate}{\enumerate\addtolength{\itemsep}{10pt}}{\endenumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{booktabs}
+\usepackage{adjustbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other float stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subcaption}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{bm} % for \boldsymbol{}
+\usepackage{dsfont}
+\usepackage{amsmath,ragged2e}
+
+% \bigbrace{<eqn>}{<text-annotation>}
+% \bigoverbrace{<eqn>}{<text-annotation>}
+\newlength\mylen
+\newcommand\bigbrace[2]{%
+	\settowidth\mylen{$\displaystyle #1$}
+	\underbrace{#1}_{\parbox{\mylen}{\scriptsize\Centering #2}}}
+\newcommand\bigoverbrace[2]{%
+	\settowidth\mylen{$\displaystyle #1$}
+	\overbrace{#1}^{\parbox{\mylen}{\scriptsize\Centering #2}}}
+
+% https://tex.stackexchange.com/a/205623
+% For uncovering braces in equations. eg: \uncoverubrace<2->{u}{is utility}
+\newcommand<>{\uncoverubrace}[2]{%
+  \onslide#3 \underbrace{ \onslide<1->%
+  #1%
+  \onslide#3 }_{#2} \onslide<1->%
+}
+\newcommand<>{\uncoverobrace}[2]{%
+  \onslide#3 \overbrace{ \onslide<1->%
+  #1%
+  \onslide#3 }^{#2} \onslide<1->%
+}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Referencing stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{natbib}
+\setcitestyle{aysep={}} 
+
+% Permanently make citations smaller
+%https://latex.org/forum/viewtopic.php?t=25101
+\let\realcitep\citep
+\renewcommand*{\citep}[1]{{\scriptsize\realcitep{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom macros for convenience
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title & author
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Title}
+\subtitle{Subtitle}
+% \date{\today}
+\date{}
+\author{AuthorA \and AuthorB \and }
+\institute{Institute}
+
+% For example (to be commented out)
+\usepackage{blindtext}
+\usepackage{lipsum}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Init doc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+
+\input{dummy-text.tex}
+
+
+\end{document}
