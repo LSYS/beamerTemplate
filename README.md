@@ -1,4 +1,4 @@
-Custom beamer template with a progress bar. Layout and colours are kept minimal.
+A custom beamer template with a progress bar I use often. Layout and colours are kept minimal.
 
 ![](https://raw.githubusercontent.com/lsys/beamertemplate/main/assets/images/example-start.png)
 
